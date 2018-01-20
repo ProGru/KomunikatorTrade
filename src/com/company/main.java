@@ -16,7 +16,7 @@ public class main {
         //String user = odczyt.nextLine();
         //player.trade(new Metale("aaa",1,1,1,1,1,1,1),user);
         String user = odczyt.nextLine();
-        player.accept(user);
+        player.cancel(user);
 
     }
 }

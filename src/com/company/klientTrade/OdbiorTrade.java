@@ -33,11 +33,21 @@ public class OdbiorTrade extends Thread {
                 } else if (parts[1].equals("*tradeOdbior")){
                     klientTrade.tradeZakoncz(stringToMetale(parts[2]));
                 }else if (parts[1].equals("*trade")){
-                    klientTrade.tradeOdbieramy(stringToMetale(parts[2]),new Metale(),parts[0]);
+                    if (klientTrade.istrade==0) {
+                        klientTrade.tradeOdbieramy(stringToMetale(parts[2]), new Metale(), parts[0]);
+                    }else {
+                        klientTrade.zajety(parts[0]);
+                    }
                 }else if (parts[1].equals("*accept")){
                     klientTrade.accept=1;
                 }else if (parts[1].equals("*zamien")){
                     klientTrade.zamien();
+                }else if (parts[1].equals("*zajety")){
+                    klientTrade.istrade=0;
+                    System.out.println("Gracz aktualnie handluje");
+                }else if (parts[1].equals("*cancel")){
+                    klientTrade.cancel(parts[0]);
+                    System.out.println("Cancelled");
                 }
                 else {
                     System.out.println("przyszło : "+str);

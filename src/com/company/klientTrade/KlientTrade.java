@@ -19,6 +19,7 @@ public class KlientTrade {
 
     Metale metalOdebrany;
     Metale metalWyslany;
+    int istrade=0;
     int accept =0;
 
     public KlientTrade(Player player) throws IOException {
@@ -33,6 +34,7 @@ public class KlientTrade {
     }
 
     public void tradeWysylamy(Metale metale, String userName) throws IOException {
+        istrade=1;
         metalWyslany = metale;
         System.out.println("wysylam taki metal:"+metale.toString());
         wyslijTrade.wyslij("*trade&"+userName+"&"+metale.toString());
@@ -40,6 +42,7 @@ public class KlientTrade {
 
 
     public void tradeOdbieramy(Metale metalOdbior,Metale metalWyslij,String userName) throws IOException {
+        istrade=1;
         metalOdebrany = metalOdbior;
         metalWyslany = metalWyslij;
         System.out.println("Odebralem taki metal:"+metalOdbior.toString());
@@ -59,12 +62,24 @@ public class KlientTrade {
             wyslijTrade.wyslij("*accept&" + userName);
         }
     }
+    public void cancel(String userName){
+        if (istrade==1) {
+            wyslijTrade.wyslij("*cancel&" + userName);
+        }
+        accept=0;
+        istrade=0;
+    }
 
     public void zamien(){
         System.out.println("zamieniam:"+metalOdebrany.toString() +"z :"+metalWyslany.toString());
         player.dodaj(metalOdebrany);
         player.usun(metalWyslany);
         accept=0;
+        istrade=0;
+    }
+
+    public void zajety(String userName){
+        wyslijTrade.wyslij("*zajety&"+userName);
     }
 
 }

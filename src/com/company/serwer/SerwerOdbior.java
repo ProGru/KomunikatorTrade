@@ -67,6 +67,21 @@ class SerwerOdbior extends Thread
                     }
                 }else if (parts[1].equals("*ustawNazwe")){
 
+                }else if (parts[1].equals("*zajety")){
+                    for (int i=0;i<listaWatkow.size();i++) {
+                        if (parts[2].equals(listaWatkow.get(i).sock.getPort() + ":" + listaWatkow.get(i).sock.getLocalAddress().getHostAddress())){
+                            listaWatkow.get(i).outp.println(parts[0]+"&*zajety&");
+                            listaWatkow.get(i).outp.flush();
+                        }
+
+                    }
+                }else if (parts[1].equals("*cancel")){
+                    for (int i=0;i<listaWatkow.size();i++) {
+                        if (parts[2].equals(listaWatkow.get(i).sock.getPort() + ":" + listaWatkow.get(i).sock.getLocalAddress().getHostAddress())){
+                            listaWatkow.get(i).outp.println(parts[0]+"&*cancel&");
+                            listaWatkow.get(i).outp.flush();
+                        }
+                    }
                 }
                 else {
                     for (int i=0;i<listaWatkow.size();i++) {
