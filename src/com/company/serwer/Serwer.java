@@ -3,6 +3,8 @@ package com.company.serwer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Serwer
 {
@@ -15,6 +17,7 @@ public class Serwer
         ServerSocket serv;
         serv=new ServerSocket(PORT);
         ListaWatkow listaWatkow = new ListaWatkow();
+        Map<String,String> slownikUzytkownikow = new HashMap<String, String>();
 
         while (true) {
             //oczekiwanie na polaczenie i tworzenie gniazda sieciowego
@@ -22,7 +25,7 @@ public class Serwer
             Socket sock;
             sock = serv.accept();
             System.out.println("Jest polaczenie: " + sock);
-            SerwerOdbior odbior = new SerwerOdbior(sock,listaWatkow);
+            SerwerOdbior odbior = new SerwerOdbior(sock,listaWatkow,slownikUzytkownikow);
             SerwerWyslij wyslij = new SerwerWyslij(sock);
             listaWatkow.add(wyslij);
             odbior.start();

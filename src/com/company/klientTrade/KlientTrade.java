@@ -16,41 +16,46 @@ public class KlientTrade {
     String localAddres;
     public WyslijTrade wyslijTrade;
     OdbiorTrade odbiorTrade;
+    String zkim;
 
-    Metale metalOdebrany;
-    Metale metalWyslany;
+    Object metalOdebrany;
+    Object metalWyslany;
     int istrade=0;
     int accept =0;
+    String nick;
 
     public KlientTrade(Player player) throws IOException {
         this.player = player;
         Socket sock;
         sock=new Socket(HOST,PORT);
         System.out.println("Nawiazalem polaczenie: "+sock);
-        wyslijTrade = new WyslijTrade(sock,this);
+        wyslijTrade = new WyslijTrade(sock,this,nick);
         odbiorTrade = new OdbiorTrade(sock,this);
         wyslijTrade.start();
         odbiorTrade.start();
     }
 
-    public void tradeWysylamy(Metale metale, String userName) throws IOException {
+    public void tradeWysylamy(Object metale, String userName) throws IOException {
         istrade=1;
         metalWyslany = metale;
         System.out.println("wysylam taki metal:"+metale.toString());
         wyslijTrade.wyslij("*trade&"+userName+"&"+metale.toString());
     }
 
-
-    public void tradeOdbieramy(Metale metalOdbior,Metale metalWyslij,String userName) throws IOException {
-        istrade=1;
+    public void setMetalOdebrany(Object metalOdbior,String gracz){
         metalOdebrany = metalOdbior;
+        zkim = gracz;
+    }
+
+    public void tradeOdbieramy(Object metalWyslij,String userName) throws IOException {
+        istrade=1;
         metalWyslany = metalWyslij;
-        System.out.println("Odebralem taki metal:"+metalOdbior.toString());
+        System.out.println("Odebralem taki metal:"+metalOdebrany.toString());
         System.out.println("wysylam taki metal:"+metalWyslij.toString());
         wyslijTrade.wyslij("*tradeOdbior&"+userName+"&"+metalWyslij.toString());
     }
 
-    public void tradeZakoncz(Metale metale){
+    public void tradeZakoncz(Object metale){
         System.out.println("Z zakonczenia odebralem taki:"+metale.toString());
         metalOdebrany = metale;
     }
@@ -80,6 +85,16 @@ public class KlientTrade {
 
     public void zajety(String userName){
         wyslijTrade.wyslij("*zajety&"+userName);
+    }
+
+    public void ustawNick(String nickName){
+        nick = nickName;
+        wyslijTrade.setNick(nick);
+        wyslijTrade.wyslijNick("*ustawNazwe&"+nickName);
+    }
+
+    public void sprawdzNicki(){
+        wyslijTrade.wyslij("*podajNicki&");
     }
 
 }
